@@ -13,3 +13,8 @@ SELECT emp_no, count(*) as emp_count
 
 3. Print the combination of first and last name as a row named emp_name from employees table.
 select concat(first_name,' ',last_name) as emp_name from employees;
+
+4. Use aliases to print first and last name
+SELECT first_name AS 'First Name', last_name AS 'Last Name' FROM employees;
+
+5. 
