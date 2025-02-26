@@ -1,0 +1,15 @@
+1. Switch to the employee DB
+USE employee
+
+2. Print an aggregated table of employee number and the count of employees holding the number whose employee number is greater than zero and
+print the row 6 to 15 in ascending order.
+SELECT emp_no, count(*) as emp_count
+    FROM employees
+    WHERE emp_no > 1
+    GROUP BY emp_no 
+        HAVING emp_count > 0
+    ORDER BY emp_no
+    LIMIT 5, 10;
+
+3. Print the combination of first and last name as a row named emp_name from employees table.
+select concat(first_name,' ',last_name) as emp_name from employees;
