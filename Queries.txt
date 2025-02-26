@@ -52,3 +52,19 @@ SELECT * FROM employees
 	WHERE first_name LIKE 'Elv%' AND last_name LIKE '_e%'
 AND
 	last_name NOT like '%n';
+
+11. Extract Salary details of employees using BETWEEN, NOT BETWEEN
+SELECT * FROM salaries
+	WHERE from_date BETWEEN '1999-06-01' AND '2001-03-27'
+AND
+	to_date NOT BETWEEN '2001-08-01' AND '2002-12-31'
+    ORDER BY salary DESC
+    LIMIT 50000, 10000;
+
+12. COUNT the DISTINCT records
+SELECT COUNT(DISTINCT first_name) FROM employees;
+
+SELECT DISTINCT birth_date FROM employees;
+
+SELECT COUNT(DISTINCT birth_date) FROM employees;
+
