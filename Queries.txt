@@ -25,3 +25,30 @@ SELECT salary,
     salary * .01 * 4 * 52 AS 'Yearly',
     (salary * .01 * 4 * 52) + 200 AS 'Bonus'
     FROM salaries;
+
+6. Date format
+SELECT from_date AS 'From Date', 
+	date_format(from_date, '%M %d, %Y') AS Version1,
+    date_format(from_date, '%m-%d-%Y') AS Version2
+	FROM salaries;
+
+7. Using LEFT function to create initials
+SELECT first_name, last_name, 
+	CONCAT(LEFT(first_name, 1), LEFT(last_name, 1)) AS initials FROM employees;
+
+8.  Combination of AND, OR using WHERE
+SELECT * FROM employees
+	WHERE first_name = 'Elvis' AND last_name='Velasco'
+OR  
+	first_name = 'Elvis' OR last_name='Velasco';
+
+9. Combination of IN, NOT IN
+SELECT * FROM employees
+	WHERE first_name NOT IN ('Elvis', 'Katsuyuki', 'Stepehn')
+AND last_name IN ('Brodie', 'McAffer', 'Roisin');
+
+10. Combination of LIKE, NOT LIKE, and Wildcards
+SELECT * FROM employees 
+	WHERE first_name LIKE 'Elv%' AND last_name LIKE '_e%'
+AND
+	last_name NOT like '%n';
