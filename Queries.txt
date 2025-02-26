@@ -17,4 +17,11 @@ select concat(first_name,' ',last_name) as emp_name from employees;
 4. Use aliases to print first and last name
 SELECT first_name AS 'First Name', last_name AS 'Last Name' FROM employees;
 
-5. 
+5. Weekly, monthly and yearly salary of employees
+SELECT salary,
+	(salary * .01) / 7 AS 'Daily',
+	salary * .01 AS 'Weekly',
+    salary * .01 * 4 AS 'Monthly',
+    salary * .01 * 4 * 52 AS 'Yearly',
+    (salary * .01 * 4 * 52) + 200 AS 'Bonus'
+    FROM salaries;
