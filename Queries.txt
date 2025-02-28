@@ -68,3 +68,48 @@ SELECT DISTINCT birth_date FROM employees;
 
 SELECT COUNT(DISTINCT birth_date) FROM employees;
 
+13. Using group by to get table containing number of employees receiving a particular salary
+select salary, count(*) as sal_count from salaries group by salary having sal_count > 50 order by sal_count, salary;
+
+14. Using date_format() to get only the year of salary received.
+select date_format(from_date, '%Y') as 'Salary Date' from salaries;
+
+15. Get a table containing the sum of salaries in a particular year
+SELECT DATE_FORMAT(from_date, '%Y') AS year, SUM(salary) AS 'Salary expense' FROM salaries
+    GROUP BY year;
+
+16. Find the minimum salaries received every year
+SELECT DATE_FORMAT(from_date, '%Y') AS salary_year, MIN(salary) FROM salaries
+    GROUP BY salary_year;
+
+17. Find the maximum salaries received every year
+SELECT DATE_FORMAT(from_date, '%Y') AS salary_year, MAX(salary) FROM salaries
+    GROUP BY salary_year;
+
+18. Find the maximum, minimum, and the difference in max and min of salary for every year using sub_query
+SELECT 
+    salary_year,
+    max_salary,
+    min_salary,
+    (max_salary - min_salary) AS DELTA
+FROM
+    (SELECT 
+        DATE_FORMAT(from_date, '%Y') AS salary_year,
+            MAX(salary) AS max_salary,
+            MIN(salary) AS min_salary
+    FROM
+        salaries
+    GROUP BY salary_year) AS sub_query;
+
+19. Print the function obtained Average salaries, and calculate the average salary for every year using the total records and total salary credited every year
+SELECT 
+    Average_salary, (Sum / Total_records) AS 'Calculated Salary'
+FROM
+    (SELECT 
+        DATE_FORMAT(from_date, '%Y') AS Salary_year,
+            AVG(salary) AS Average_salary,
+            COUNT(*) AS Total_records,
+            SUM(salary) AS Sum
+    FROM
+        salaries
+    GROUP BY Salary_year) AS subselect;
