@@ -1,0 +1,115 @@
+1. Switch to the employee DB
+USE employee
+
+2. Print an aggregated table of employee number and the count of employees holding the number whose employee number is greater than zero and
+print the row 6 to 15 in ascending order.
+SELECT emp_no, count(*) as emp_count
+    FROM employees
+    WHERE emp_no > 1
+    GROUP BY emp_no 
+        HAVING emp_count > 0
+    ORDER BY emp_no
+    LIMIT 5, 10;
+
+3. Print the combination of first and last name as a row named emp_name from employees table.
+select concat(first_name,' ',last_name) as emp_name from employees;
+
+4. Use aliases to print first and last name
+SELECT first_name AS 'First Name', last_name AS 'Last Name' FROM employees;
+
+5. Weekly, monthly and yearly salary of employees
+SELECT salary,
+	(salary * .01) / 7 AS 'Daily',
+	salary * .01 AS 'Weekly',
+    salary * .01 * 4 AS 'Monthly',
+    salary * .01 * 4 * 52 AS 'Yearly',
+    (salary * .01 * 4 * 52) + 200 AS 'Bonus'
+    FROM salaries;
+
+6. Date format
+SELECT from_date AS 'From Date', 
+	date_format(from_date, '%M %d, %Y') AS Version1,
+    date_format(from_date, '%m-%d-%Y') AS Version2
+	FROM salaries;
+
+7. Using LEFT function to create initials
+SELECT first_name, last_name, 
+	CONCAT(LEFT(first_name, 1), LEFT(last_name, 1)) AS initials FROM employees;
+
+8.  Combination of AND, OR using WHERE
+SELECT * FROM employees
+	WHERE first_name = 'Elvis' AND last_name='Velasco'
+OR  
+	first_name = 'Elvis' OR last_name='Velasco';
+
+9. Combination of IN, NOT IN
+SELECT * FROM employees
+	WHERE first_name NOT IN ('Elvis', 'Katsuyuki', 'Stepehn')
+AND last_name IN ('Brodie', 'McAffer', 'Roisin');
+
+10. Combination of LIKE, NOT LIKE, and Wildcards
+SELECT * FROM employees 
+	WHERE first_name LIKE 'Elv%' AND last_name LIKE '_e%'
+AND
+	last_name NOT like '%n';
+
+11. Extract Salary details of employees using BETWEEN, NOT BETWEEN
+SELECT * FROM salaries
+	WHERE from_date BETWEEN '1999-06-01' AND '2001-03-27'
+AND
+	to_date NOT BETWEEN '2001-08-01' AND '2002-12-31'
+    ORDER BY salary DESC
+    LIMIT 50000, 10000;
+
+12. COUNT the DISTINCT records
+SELECT COUNT(DISTINCT first_name) FROM employees;
+
+SELECT DISTINCT birth_date FROM employees;
+
+SELECT COUNT(DISTINCT birth_date) FROM employees;
+
+13. Using group by to get table containing number of employees receiving a particular salary
+select salary, count(*) as sal_count from salaries group by salary having sal_count > 50 order by sal_count, salary;
+
+14. Using date_format() to get only the year of salary received.
+select date_format(from_date, '%Y') as 'Salary Date' from salaries;
+
+15. Get a table containing the sum of salaries in a particular year
+SELECT DATE_FORMAT(from_date, '%Y') AS year, SUM(salary) AS 'Salary expense' FROM salaries
+    GROUP BY year;
+
+16. Find the minimum salaries received every year
+SELECT DATE_FORMAT(from_date, '%Y') AS salary_year, MIN(salary) FROM salaries
+    GROUP BY salary_year;
+
+17. Find the maximum salaries received every year
+SELECT DATE_FORMAT(from_date, '%Y') AS salary_year, MAX(salary) FROM salaries
+    GROUP BY salary_year;
+
+18. Find the maximum, minimum, and the difference in max and min of salary for every year using sub_query
+SELECT 
+    salary_year,
+    max_salary,
+    min_salary,
+    (max_salary - min_salary) AS DELTA
+FROM
+    (SELECT 
+        DATE_FORMAT(from_date, '%Y') AS salary_year,
+            MAX(salary) AS max_salary,
+            MIN(salary) AS min_salary
+    FROM
+        salaries
+    GROUP BY salary_year) AS sub_query;
+
+19. Print the function obtained Average salaries, and calculate the average salary for every year using the total records and total salary credited every year
+SELECT 
+    Average_salary, (Sum / Total_records) AS 'Calculated Salary'
+FROM
+    (SELECT 
+        DATE_FORMAT(from_date, '%Y') AS Salary_year,
+            AVG(salary) AS Average_salary,
+            COUNT(*) AS Total_records,
+            SUM(salary) AS Sum
+    FROM
+        salaries
+    GROUP BY Salary_year) AS subselect;
